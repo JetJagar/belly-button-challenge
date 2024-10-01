@@ -55,11 +55,11 @@ function buildCharts(sample) {
       title: 'Bubble Chart of OTUs',
       xaxis: {title: 'OTU IDs'},
       yaxis: {title: 'Sample Values'},
-      hovermodde: 'cloest'
+      hovermodde: 'closest'
     };
 
     // Render the Bubble Chart
-    Plotly.nrePlot('bubble', [bubbleTrace], bubbleLayout);
+    Plotly.newPlot('bubble', [bubbleTrace], bubbleLayout);
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
     const yticks = otuIds.slice(0, 10).map(id => `OTU ${id}`);
