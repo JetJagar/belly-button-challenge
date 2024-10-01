@@ -2,23 +2,34 @@
 function buildMetadata(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
-    // get the metadata field
+    // Get the metadata field
     const metadata = data.metadata;
 
     // Filter the metadata for the object with the desired sample number
     const filteredMetadata = metadata.find(entry => entry.id === sample);
 
+    // Check the filteredMetadata
+    console.log("Filtered Metadata:", filteredMetadata);
+
     // Use d3 to select the panel with id of `#sample-metadata`
     const panel = d3.select('#sample-metadata');
 
     // Use `.html("") to clear any existing metadata
-    panel.html('');
+    panel.html("");
 
-    // Inside a loop, you will need to use d3 to append new
-    // tags for each key-value in the filtered metadata.
-    Objects.entries(filteredMetadata).forEach(([key, value]) => {
-      panel.append('h6').text(`${key}: ${value}`);
-    });
+    // Clear the existing dropdown options
+    const demographicDropdown = d3.select("#demographicDropdown");
+    demographicDropdown.html(""); // Clear the dropdown
+
+    // Ensure that filteredMetadata is not undefined before proceeding
+    if (filteredMetadata) {
+      // Inside a loop, append new options for each key-value in the filtered metadata
+      Object.entries(filteredMetadata).forEach(([key, value]) => {
+        demographicDropdown.append("h4").text(`${key}: ${value}`).attr("value", key);
+      });
+    } else {
+      console.log("No metadata found for the selected sample.");
+    }
   });
 }
 
@@ -70,7 +81,7 @@ function buildCharts(sample) {
       x: sampleValues.slice(0, 10).reverse(), // Get the top 10 sample values and reverse them
       y: yticks.reverse(), // Reverse the yticks to match the values
       type: 'bar',
-      text: otuLabels.slic(0, 10).reverse(), // Get labels for the top 10 and reverse them
+      text: otuLabels.slice(0, 10).reverse(), // Get labels for the top 10 and reverse them
       orientation: 'h' // Horizontal bar chart orientation
     }];
 
