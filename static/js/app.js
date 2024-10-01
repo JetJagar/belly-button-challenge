@@ -6,30 +6,18 @@ function buildMetadata(sample) {
     const metadata = data.metadata;
 
     // Filter the metadata for the object with the desired sample number
-    const filteredMetadata = metadata.find(entry => entry.id === sample);
-
-    // Check the filteredMetadata
-    console.log("Filtered Metadata:", filteredMetadata);
+    const filteredMetadata = metadata.find(entry => entry.id === +sample);
 
     // Use d3 to select the panel with id of `#sample-metadata`
-    const panel = d3.select('#sample-metadata');
+    const panel = d3.select("#sample-metadata");
 
     // Use `.html("") to clear any existing metadata
     panel.html("");
 
-    // Clear the existing dropdown options
-    const demographicDropdown = d3.select("#demographicDropdown");
-    demographicDropdown.html(""); // Clear the dropdown
-
-    // Ensure that filteredMetadata is not undefined before proceeding
-    if (filteredMetadata) {
-      // Inside a loop, append new options for each key-value in the filtered metadata
-      Object.entries(filteredMetadata).forEach(([key, value]) => {
-        demographicDropdown.append("h4").text(`${key}: ${value}`).attr("value", key);
-      });
-    } else {
-      console.log("No metadata found for the selected sample.");
-    }
+    // Inside a loop, append new tags for each key-value in the filtered metadata.
+    Object.entries(filteredMetadata).forEach(([key, value]) => {
+      panel.append("h6").text(`${key}: ${value}`);
+    });
   });
 }
 
